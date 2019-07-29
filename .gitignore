@@ -1,0 +1,6 @@
+.env
+bin/fuelstats.py
+.DS_Store
+*.pyc
+.vscode
+*PrixCarburants*
