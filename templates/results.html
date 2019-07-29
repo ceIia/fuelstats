@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>fuelstats™️ | v0.1 - mooncard edition</title>
+  <meta name="description" content="fuelstats™️ | v0.1 - mooncard edition">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+  <style>
+    td {
+      font-size: 10.5px;
+      padding: .3rem !important;
+      padding-left: none;
+    }
+  </style>
+  <header style="padding: 30px; background-color: #eeeeee; margin-bottom: 50px;">
+    <div class="container-fluid">
+      <div class="moon-head" style="display: flex; align-items: center; justify-content: center;">
+        <img src="https://www.mooncard.co/img/logo-blue.svg" alt="Mooncard">
+        <div class="informations" style="margin-left: 25px;">
+          <h1>Fuel pricing stastistics for <code>{{ postcode }}</code></h1>
+          <h4><small class="text-muted">Reference address : {{ address }}<br>Generated on the {{ time }} by <a href="https://mooncard.co">Mooncard</a></small></h4>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container-fluid">
+    <h3>Statistics per pump <span class="badge badge-pill badge-dark">{{ results_length }}</span><br><small class="text-muted">You'll find here stats for each pump available in the requested city, for every fuel type available.</small></h3>
+    <div class="row">
+      {% for gas_station in getback %}
+      <div class="col-6 col-md-6 col-lg-6 col-xl-6">
+        <div class="card" style="margin: .5em; width: 100%;">
+          <img src="{{ gas_station[0][2] }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ gas_station[0][0].lower().title() }} <span class="badge badge-info">{{ gas_station[0][3]}}</span> {% if "total" in gas_station[0][0].lower() %} <span class="badge badge-danger">Total</span> {% endif %}
+            </h5>
+            
+            <h6 class="card-subtitle mb-2 text-muted">google : {{ gas_station[0][1] }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">legacy : {{ gas_station[0][5].title() }}</h6>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>#</td>
+                  {% for month_name in months_abbr %}
+                  <td style="font-size: 10.5px; padding: .4rem;">{{ month_name }}</td>
+                  {% endfor %}
+                </tr>
+                {% for d in gas_station[1] %}
+                <tr>
+                  
+                    <td scope="row"><strong>{{ d[0].upper() }}</strong></td>
+                    {% for p in d[1] %}
+                    <td style="font-size: 10.5px; padding: .4rem;"><span class="{% if p == 0 %} font-italic text-muted{% endif %}">{{ p }}€</span></td>
+                    {% endfor %}
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <canvas id="chart-{{ gas_station[0][6] }}"></canvas>
+          </div>
+        </div>
+      </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+      <script>
+        var ctx = document.getElementById('chart-{{ gas_station[0][6] }}');
+        var lineChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: [{% for month_name in months_full %} "{{ month_name }}", {% endfor %}],
+            datasets: [
+              {% for d in gas_station[1] %}
+              {
+                data: [ {% for p in d[1] %} {% if p == 0 %} {{ "null" }} {% else %} {{ p }} {% endif %}, {% endfor %}],
+                label: "{{ d[0].upper() }}",
+                borderColor: {% if d[0].lower() == 'gazole' %} "#e5e500" {% elif d[0].lower() == 'sp98' %} "#32d732" {% elif d[0].lower() == 'e10' %} '#bcf226' {% elif d[0].lower() == 'e85' %} '#739909' {% elif d[0].lower() == 'gplc' %} '#0c90c0' {% else %} '#000000' {% endif %},
+                fill: false,
+                spanGaps: true
+              },
+              {% endfor %} 
+            ]
+          },
+          options: {
+            legend: {
+              display: true,
+              position: 'bottom'
+            }
+          }
+        });
+      </script>
+      {% endfor %}
+    </div>
+
+
+
+  </div>
+
+  <div class="container-fluid" style="padding: 35px;">
+    <h3>Statistics by gas station brand<br><small class="text-muted">You'll find here average stats separated by brand in the requested city, for every fuel type available.</small></h3>
+    <div class="row" style="margin: 5px;">
+      <div class="col-6">
+        <h4><span class="badge badge-danger">Total</span> gas stations</h4>
+        <div class="card">
+          <div class="card-body">
+            <p class="text-muted" style="font-size: 13px">average prices for gas stations belonging to Total (Red Total & Total Access)</p>
+            <table class="table">
+              <tr>
+                <td>#</td>
+                {% for month_name in months_abbr %}
+                <td style="font-size: 10.5px; padding: .4rem;">{{ month_name }}</td>
+                {% endfor %}
+              </tr>
+              {% for values in totalb_average %}
+              <tr>
+                  <td scope="row"><strong>{{ values[0].upper() }}</strong></td>
+                  {% for p in values[1] %}
+                  <td style="font-size: 10.5px; padding: .4rem;"><span class="{% if p == 0 %} font-italic text-muted{% endif %}">{{ p }}€</span></td>
+                  {% endfor %}
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <h4><span class="badge badge-info">other</span> gas stations</h4>
+
+        <div class="card">   
+          <div class="card-body">
+            <p class="text-muted" style="font-size: 13px">average prices for all the other available gas stations in the requested area</p>
+            <table class="table">
+              <tr>
+                <td>#</td>
+                {% for month_name in months_abbr %}
+                <td style="font-size: 10.5px; padding: .4rem;">{{ month_name }}</td>
+                {% endfor %}
+              </tr>
+              {% for values in non_totalb_average %}
+              <tr>
+                  <td scope="row"><strong>{{ values[0].upper() }}</strong></td>
+                  {% for p in values[1] %}
+                  <td style="font-size: 10.5px; padding: .4rem;"><span class="{% if p == 0 %} font-italic text-muted{% endif %}">{{ p }}€</span></td>
+                  {% endfor %}
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid" style="padding: 35px;">
+    <h3>Statistics by fuel type <span class="badge badge-pill badge-dark">{{ essence_types_length }}</span><br><small class="text-muted">You'll find here average stats separated by every available fuel type in the requested city.</small></h3>
+    <div class="row" style="padding: 15px;">
+      {% for type in sorted_by_essence_type %}
+      <div class="card" style="margin: 10px;">
+        <div class="card-body">
+          <h5 class="card-title">averages for <span class="badge badge-secondary">{{ type[0] }}</span></h5>
+          <table class="table">
+          <tr>
+            <td>#</td>
+            {% for info in pumps_infos %}
+              <td>{{ info[0].lower().title() }}</td>
+            {% endfor %}
+            <td><span class="badge badge-danger">Total</span></td>
+            <td><span class="badge badge-info">Min</span></td>
+            <td><span class="badge badge-info">Min-2</span></td>
+          </tr>
+          {% for prices in type[1] %}
+          <tr>
+              <td>{{ months_abbr[prices[0]-1] }}</td>
+              {% for prices_single in prices[1] %}
+                <td><span class="{% if prices_single == 0 %} font-italic text-muted{% endif %}">{{ prices_single }}€</span></td>
+              {% endfor %}
+              {% for price_totalb in sorted_by_essence_type_totalb %}
+                {% if price_totalb[0].lower() == type[0] %}
+                <td style="background-color: #f0d4d0;">{{ price_totalb[1][prices[0]-1] }}</td>
+                {% endif %}
+              {% endfor %}
+              <td style="background-color: #d0ecf0;"><b>{{ (prices[1]|reject("==", 0)|sort)[0] }}</b></td>
+              <td style="background-color: #bde4ea;">{{ (prices[1]|reject("==", 0)|sort)[1] }}</td>
+          </tr>
+          {% endfor %}
+          {% for average_values in average_by_essence_type %}
+          {% if average_values[0].lower() == type[0].lower() %}
+            <tr style="background-color: #ddd;">
+              <td>Avg</td>
+              {% for price in average_values[1] %}
+                  <td><b>{{ price }}€</b></td>
+              {% endfor %}
+              {% for average_values_totalb in average_by_essence_type_totalb %}
+                {% if average_values_totalb[0].lower() == type[0].lower() %}
+                  <td style="background-color: #d8bebb">{{ average_values_totalb[1] }}</td>
+                {% endif %}
+              {% endfor %}
+              {% for minimums in avg_minimums_by_essence_type %}
+                {% if minimums[0].lower() == type[0].lower() %}
+                  <td style="background-color: #b8d6da;">{{ minimums[1] }}</td>
+                  <td style="background-color: #a1c5cb;">{{ minimums[2] }}</td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          {% endif %}
+          {% endfor %}
+          </table>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+</body>
+
+</html>
