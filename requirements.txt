@@ -1,15 +1,10 @@
 aiohttp==1.0.5
-algoliasearch==2.0.4
 astroid==2.2.5
 async-timeout==3.0.1
 asyncio==3.4.3
 blessings==1.7
 certifi==2019.6.16
 chardet==3.0.4
-Click==7.0
-discord==0.0.2
-discord.py==0.16.12
-Django==2.2.3
 Flask==1.1.1
 Glances==3.1.0
 gunicorn==19.9.0
@@ -28,11 +23,9 @@ pytz==2019.1
 PyYAML==3.13
 requests==2.22.0
 six==1.11.0
-sqlparse==0.3.0
 typed-ast==1.4.0
 urllib3==1.25.3
 websockets==3.4
-Werkzeug==0.15.4
 wget==3.2
 wrapt==1.11.2
 xmljson==0.2.0
