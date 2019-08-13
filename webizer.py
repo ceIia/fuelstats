@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
-# from bin.archive_downloader import download_archive
+from bin.archive_downloader import download_archive
 from bin.xml_reader import read_xml_file
 from bin.create_year_data import create_raw_array
 from bin.create_year_averages import yearly_average_constructor
 from bin.sorting import *
 from bin.generate_statistics import *  
 from dotenv import load_dotenv
-import calendar, json, time, os, requests
+import calendar, json, time, os, requests, wget
 
 app = Flask(__name__)
 load_dotenv()
@@ -36,8 +36,10 @@ def result():
       data = postcode_geosearch.json()
       
       postcode = [int(address["long_name"]) for address in data['results'][0]["address_components"] if "postal_code" in address["types"]][0]
-
-      xml_data = read_xml_file('PrixCarburants_annuel_2018.xml')
+      
+      file_path = download_archive(os.getenv("DATA_ARCHIVE_NAME"), os.getenv("S3_BUCKET_NAME"))
+      
+      xml_data = read_xml_file(file_path)
 
       raw_array = create_raw_array(xml_data, postcode, location, key)
       
