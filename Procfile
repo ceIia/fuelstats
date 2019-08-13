@@ -1,1 +1,1 @@
-web: gunicorn webizer:app
+web: gunicorn webizer:app --timeout 300

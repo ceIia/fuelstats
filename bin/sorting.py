@@ -19,8 +19,6 @@ def get_total_monthly_average(getback):
         averages.append(round((sum(sublist)/len(sublist)/1000), 2))
       except ZeroDivisionError:
         averages.append(0)
-      except UnboundLocalError:
-        averages.append(0)
       
     if sum(averages) != 0:
       totalb_monthly_average.append((essence, averages))
@@ -37,13 +35,18 @@ def get_non_total_monthly_average(getback):
       for pump in getback:
         if not 'total' in pump[0][0].lower():
           sublist = [ int(entry[2]) for entry in pump[1] if entry[0].lower() == essence and entry[1].month == i ]
-      if sublist:
-        totalb_monthly_complete_values.extend(sublist)
+      try:
+        if sublist:
+          totalb_monthly_complete_values.extend(sublist)
+      except UnboundLocalError:
+        pass
       
       try:
         averages.append(round((sum(sublist)/len(sublist)/1000), 2))
       except ZeroDivisionError:
         averages.append(0)
+      except UnboundLocalError:
+        pass
       
     if sum(averages) != 0:
       totalb_monthly_average.append((essence, averages))
