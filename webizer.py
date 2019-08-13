@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from bin.archive_downloader import download_archive
+# from bin.archive_downloader import download_archive
 from bin.xml_reader import read_xml_file
 from bin.create_year_data import create_raw_array
 from bin.create_year_averages import yearly_average_constructor
