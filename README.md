@@ -1,4 +1,4 @@
-# fuelstats
+# fuelstats [![Build Status](https://travis-ci.com/ceIia/fuelstats.svg?token=w3quvxVc78RmD2Dzryak&branch=master)](https://travis-ci.com/ceIia/fuelstats)
 fuelstats is an app that allows you to get differents dynamic stats around fuel prices in France. 🥖
 
 
