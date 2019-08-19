@@ -4,4 +4,3 @@ bin/fuelstats.py
 *.pyc
 .vscode
 *PrixCarburants*
-.travis*
