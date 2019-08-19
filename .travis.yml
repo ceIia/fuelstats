@@ -21,6 +21,6 @@ deploy:
     branch: master
 - provider: script
   skip_cleanup: true
-  script: ssh -p ${DEPLOY_PORT} -i /tmp/deploy_rsa ${DEPLOY_USER}@${DEPLOY_HOST} "~/deploy.sh"
+  script: ssh -p 2560 -i /tmp/deploy_rsa ${DEPLOY_USER}@${DEPLOY_HOST} "~/deploy.sh"
   on:
     branch: master
