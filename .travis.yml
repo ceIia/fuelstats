@@ -14,13 +14,12 @@ before_install:
 deploy:
 - provider: script
   skip-cleanup: true
-  script: rsync -r --quiet -e 'ssh -p ${DEPLOY_PORT}' --delete-after ${TRAVIS_BUILD_DIR}/*
-    ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
+  script: rsync -r --quiet -e 'ssh -p ${DEPLOY_PORT}' --delete-after ${TRAVIS_BUILD_DIR}/* ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
   on:
     branch: master
 - provider: script
   skip_cleanup: true
-  script: ssh -p ${DEPLOY_PORT} -i /tmp/deploy_rsa ${DEPLOY_USER}@${DEPLOY_HOST} ~/deploy.sh
+  script: ssh -p ${DEPLOY_PORT} -i /tmp/deploy_rsa ${DEPLOY_USER}@${DEPLOY_HOST} "~/deploy.sh"
   on:
     branch: master
 
