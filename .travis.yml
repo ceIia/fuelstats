@@ -2,7 +2,7 @@ language: python
 python:
 - '3.6'
 
-before_deploy:
+before_install:
 - openssl aes-256-cbc -K $encrypted_9768f74491f6_key -iv $encrypted_9768f74491f6_iv
   -in deploy_rsa.enc -out .travis/deploy_rsa -d
 - eval "$(ssh-agent -s)"
@@ -23,7 +23,7 @@ deploy:
   script: ssh -p ${DEPLOY_PORT} -i /tmp/deploy_rsa ${DEPLOY_USER}@${DEPLOY_HOST} ~/deploy.sh
   on:
     branch: master
-    
+
 env:
   global:
   - secure: Z1nr+CeuY084ulq7ANEe93DwpD0l88ICdYjvOzVTF2kVTZHn5/7fKhauec7LfIn088XUuGwrRojgA4t+Mc4GPe1Us/c8SrHYrpSczQhen+f6Fbkh6gukEZANGfvsczRkZ+OmO2drcUic+lsJg666bLijSoVatmhTfNb4ZRzZSiSH0PCJGsIgFxq3s3daTFecFQQBpuzJ3J7Mv2jrwoMCBgP1+FXd2Ae4r5yCSsGH1PB/35fT/QrOfHDusbl+4CfIk0rGf3HaGxdWBjOhMTtE1YrgUvMxlGfM26zEZUCuzBX+5zMSkegf5spn0ZWhqEzfP+DjPOncaESdP+i0z2a2LjFEiZXiVUwaL5PnQxr1vAcSd0hZY340bolIoVQU+3+M8hv/fsUq582Iz0ONC9U2iaKXHiceUYxQz68qu/54iuor03SQFYPFxEeefg54D9YHnmGDh4aXhOsun/IVSagaYn/PagdN2dqd+7Ar1JXKDqFowqHSP1eDgq4XeUPyTCKjxIutPtN22TFbvARCW6ggz+rZAwP8/pmJbeSZ4v9G4OB9gsPeZWFjNr0q2LxWSgWw/+DFmtwV/XYrCRITNr0l8RnIGcXqfCrdrcE73daUVn6R82tt0Iu4/kEB/uwVHArEIzkhTPcZvlJMO32tFYW0radQ6b6VCc40LK1iXDkowNc=
