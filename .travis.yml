@@ -10,6 +10,9 @@ before_install:
 - ssh-add /tmp/deploy_rsa
 - echo -e "Host ${DEPLOY_HOST}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
+script: 
+- pytest
+
 deploy:
 - provider: script
   skip-cleanup: true
