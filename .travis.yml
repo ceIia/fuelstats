@@ -9,14 +9,14 @@ before_install:
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
 - echo -e "Host ${DEPLOY_HOST}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-
-
-deploy:
 - echo ${DEPLOY_PORT}
 - echo ${DEPLOY_HOST}
 - echo ${DEPLOY_USER}
 - echo ${DEPLOY_DIRECTORY}
 - echo ${TRAVIS_BUILD_DIR}
+
+
+deploy:
 - provider: script
   skip-cleanup: true
   script: rsync -r --quiet -e 'ssh -p ${DEPLOY_PORT}' --delete-after ${TRAVIS_BUILD_DIR}/* ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
