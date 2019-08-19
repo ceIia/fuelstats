@@ -16,7 +16,7 @@ script:
 deploy:
 - provider: script
   skip-cleanup: true
-  script: rsync -r --quiet -e 'ssh -p ${DEPLOY_PORT}' --delete-after ${TRAVIS_BUILD_DIR}/* ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
+  script: rsync -r --quiet -e 'ssh -p 2560' --delete-after ${TRAVIS_BUILD_DIR}/* ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIRECTORY}
   on:
     branch: master
 - provider: script
