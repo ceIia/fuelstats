@@ -7,7 +7,7 @@ def download_archive(file_name, bucket_name):
   print(url)
   
   # download the xml data archive
-  fileName = wget.download(url, 'temp/')
+  fileName = wget.download(url, '/tmp')
   
   filePath = fileName
 
