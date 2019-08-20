@@ -7,3 +7,4 @@ bin/fuelstats.py
 temp/*.xml*
 __pycache__
 .pytest_cache
+*.xml*
