@@ -24,7 +24,7 @@
         <img src="https://www.mooncard.co/img/logo-blue.svg" alt="Mooncard">
         <div class="informations" style="margin-left: 25px;">
           <h1>Fuel pricing stastistics for <code>{{ postcode }}</code></h1>
-          <h4><small class="text-muted">Reference address : {{ address }}<br>Generated on the {{ time }} by <a href="https://mooncard.co">Mooncard</a></small></h4>
+          <h4><small class="text-muted">Reference address : {{ address }}<br>Generated on the {{ time }} by <a href="https://mooncard.co">Mooncard</a> in {{ process_time|round|int }} seconds.</small></h4>
         </div>
       </div>
     </div>
@@ -214,7 +214,7 @@
       {% endfor %}
     </div>
   </div>
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
 </body>
 
 </html>
