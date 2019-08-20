@@ -37,9 +37,9 @@ def result():
       
       postcode = [int(address["long_name"]) for address in data['results'][0]["address_components"] if "postal_code" in address["types"]][0]
       
-      file_path = download_archive(os.getenv("DATA_ARCHIVE_NAME"), os.getenv("S3_BUCKET_NAME"))
+      files = download_archive(os.getenv("DATA_ARCHIVE_NAME"), os.getenv("S3_BUCKET_NAME"))
       
-      xml_data = read_xml_file(file_path)
+      xml_data = read_xml_file(files)
        
       raw_array = create_raw_array(xml_data, postcode, location, key)
       
