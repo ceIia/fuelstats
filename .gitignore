@@ -4,3 +4,7 @@ bin/fuelstats.py
 *.pyc
 .vscode
 *PrixCarburants*
+temp/*.xml*
+__pycache__
+.pytest_cache
+*.xml*

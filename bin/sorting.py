@@ -19,6 +19,8 @@ def get_total_monthly_average(getback):
         averages.append(round((sum(sublist)/len(sublist)/1000), 2))
       except ZeroDivisionError:
         averages.append(0)
+      except UnboundLocalError:
+        pass
       
     if sum(averages) != 0:
       totalb_monthly_average.append((essence, averages))
