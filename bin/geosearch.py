@@ -13,11 +13,12 @@ def geosearch(latitude, longitude, address, legacy_address, id, key):
   calculated_distance = geosearch = requests.get(distance_request_url)
   distance_json = calculated_distance.json()
   distance = distance_json['rows'][0]['elements'][0]['distance']['text']
-
+  
+  print("\n Starting geosearch for pump " + str(id) + ".")
   geosearch = requests.get(url)
   data = geosearch.json()
 
-  
+ 
   if data['status'] == "ZERO_RESULTS":
     n = 8
     print('pump ID: ' + str(id) + " / legacy address: " + legacy_address)
@@ -55,6 +56,7 @@ def geosearch(latitude, longitude, address, legacy_address, id, key):
       geosearch_result = None
       return geosearch_result
   
+  print("Geosearch for pump " + str(id) + " is done.")
   name = data['results'][0]['name']
   address = data['results'][0]['vicinity']
   place_lat = data['results'][0]['geometry']['location']['lat']
