@@ -6,7 +6,7 @@ from bin.create_year_averages import yearly_average_constructor
 from bin.sorting import *
 from bin.generate_statistics import *  
 from dotenv import load_dotenv
-import calendar, json, time, os, requests, wget
+import calendar, json, time, os, requests 
 
 app = Flask(__name__)
 load_dotenv()
