@@ -40,7 +40,7 @@ def result():
       file_path = download_archive(os.getenv("DATA_ARCHIVE_NAME"), os.getenv("S3_BUCKET_NAME"))
       
       xml_data = read_xml_file(file_path)
-
+       
       raw_array = create_raw_array(xml_data, postcode, location, key)
       
       pumps_infos = build_pump_list_infos(raw_array)
