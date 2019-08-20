@@ -1,10 +1,11 @@
-def read_xml_file(file_path):
+def read_xml_file(files):
   import xml.etree.ElementTree as ET
   import os 
   
-  tree = ET.parse(file_path)
+  tree = ET.parse(files[0])
   root = tree.getroot()
   
-  os.remove(file_path)
+  for file in files:
+    os.remove(file)
   
   return root
