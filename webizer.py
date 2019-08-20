@@ -17,6 +17,7 @@ def home():
 
 @app.route('/results',methods = ['POST', 'GET'])
 def result():
+   start = time.time()
    months_abbr = []
    months_full = []
    essence_types = ['gazole', 'sp98', 'e10', 'e85', 'gplc']
@@ -62,7 +63,8 @@ def result():
       del raw_array
       # getback_json = json.dumps(getback)
      
-      
+      end = time.time()
+      process_time = end - start
       return render_template("results.html", 
                              getback = getback, 
                              months_abbr = months_abbr, 
@@ -80,7 +82,8 @@ def result():
                              essence_types = essence_types,
                              average_by_essence_type = average_by_essence_type,
                              average_by_essence_type_totalb = average_by_essence_type_totalb,
-                             avg_minimums_by_essence_type = avg_minimums_by_essence_type
+                             avg_minimums_by_essence_type = avg_minimums_by_essence_type,
+                             process_time = process_time
                              )
 
 if __name__ == '__main__':
