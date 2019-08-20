@@ -7,6 +7,13 @@ from bin.sorting import *
 from bin.generate_statistics import *  
 from dotenv import load_dotenv
 import calendar, json, time, os, requests 
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+
+sentry_sdk.init(
+    dsn="https://" + os.getenv("SENTRY_DSN_URL"),
+    integrations=[FlaskIntegration()]
+)
 
 app = Flask(__name__)
 load_dotenv()
