@@ -1,7 +1,6 @@
-pytest==5.1.0
-botocore==1.12.211
-wget==3.2
-Flask==1.1.1
 boto3==1.9.211
 requests==2.22.0
+botocore==1.12.211
+Flask==1.1.1
+pytest==5.1.0
 python-dotenv==0.10.3
