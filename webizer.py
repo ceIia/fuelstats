@@ -10,13 +10,14 @@ import calendar, json, time, os, requests
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
+load_dotenv()
+
 sentry_sdk.init(
     dsn="https://" + os.getenv("SENTRY_DSN_URL"),
     integrations=[FlaskIntegration()]
 )
 
 app = Flask(__name__)
-load_dotenv()
 
 @app.route('/')
 def home():
